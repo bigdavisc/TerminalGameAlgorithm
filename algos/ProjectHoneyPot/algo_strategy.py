@@ -78,52 +78,24 @@ class AlgoStrategy(gamelib.AlgoCore):
         Finally deploy our information units to attack.
         """
 
-        if game_state.get_resource(game_state.BITS) >= 12:
-            self.deploy_attackers(game_state)
-
-    # # Here we make the C1 Logo!
-    # def build_c1_logo(self, game_state):
-    #     """
-    #     We use Filter firewalls because they are cheap
-    #
-    #     First, we build the letter C.
-    #     """
-    #     firewall_locations = [[8, 11], [9, 11], [7,10], [7, 9], [7, 8], [8, 7], [9, 7]]
-    #     for location in firewall_locations:
-    #         if game_state.can_spawn(FILTER, location):
-    #             game_state.attempt_spawn(FILTER, location)
-    #
-    #     """
-    #     Build the number 1.
-    #     """
-    #     firewall_locations = [[17, 11], [18, 11], [18, 10], [18, 9], [18, 8], [17, 7], [18, 7], [19,7]]
-    #     for location in firewall_locations:
-    #         if game_state.can_spawn(FILTER, location):
-    #             game_state.attempt_spawn(FILTER, location)
-    #
-    #     """
-    #     Build 3 dots with destructors so it looks neat.
-    #     """
-    #     firewall_locations = [[11, 7], [13, 9], [15, 11]]
-    #     for location in firewall_locations:
-    #         if game_state.can_spawn(DESTRUCTOR, location):
-    #             game_state.attempt_spawn(DESTRUCTOR, location)
+        # if game_state.get_resource(game_state.BITS) >= 12:
+        self.deploy_attackers(game_state)
 
     def build_defences(self, game_state):
         """
         First lets protect ourselves a little with destructors:
         """
-        firewall_locations = [[0,13],[27,13],[20,10],[1,12],[26,12],[2,11],[25,11],[23,10],[13,10],[6,10],[1,13],[26,13]]
+        firewall_locations = [[0,13],[1,12],[27,13],[23,12],[24,13],[20,10],[2,11],[25,11],[13,10],[6,10]]
         for location in firewall_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
 
-        firewall_locations = [[24,10]]
+        firewall_locations = [[26,12], [24,10]]
         for location in firewall_locations:
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
 
-        firewall_locations = [[25,12], [2,12], [18,4], [9,4]]
+        firewall_locations = [[18,4], [9,4]]
         for location in firewall_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
@@ -155,10 +127,7 @@ class AlgoStrategy(gamelib.AlgoCore):
     def build_that_wall(self, game_state):
         filter_locations = []
 
-        for i in range(3, 21):
-            new_location = [i, 11]
-            filter_locations.append(new_location)
-        for i in range(23, 25):
+        for i in range(2, 23):
             new_location = [i, 11]
             filter_locations.append(new_location)
 
@@ -171,7 +140,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         First lets check if we have 10 bits, if we don't we lets wait for
         a turn where we do.
         """
-        if (game_state.get_resource(game_state.BITS) < 12):
+        if (game_state.get_resource(game_state.BITS) < 15):
             return
         if (game_state.get_resource(game_state.BITS) <= 0):
             return
