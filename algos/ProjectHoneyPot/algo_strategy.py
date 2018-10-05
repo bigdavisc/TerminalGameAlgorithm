@@ -113,7 +113,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         """
         First lets protect ourselves a little with destructors:
         """
-        firewall_locations = [[27, 13], [26, 12], [25, 11], [23, 13], [22, 13]]
+        firewall_locations = [[0,13],[27,13],[20,10],[1,12],[26,12],[2,11],[25,11],[23,10],[13,10],[6,10],[1,13],[26,13]]
         for location in firewall_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
@@ -124,7 +124,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         shields decay over time, so shields closer to the action 
         are more effective.
         """
-        firewall_locations = [[3, 12], [2, 13]]
+        firewall_locations = [[21,7]]
         for location in firewall_locations:
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
@@ -148,26 +148,13 @@ class AlgoStrategy(gamelib.AlgoCore):
         """
         possible_locations = self.filter_blocked_locations(all_locations, game_state)
 
-        """
-        While we have cores to spend, build a random Encryptor.
-        """
-
-        if game_state.turn_number % 2 == 0:
-            while game_state.get_resource(game_state.CORES) >= game_state.type_cost(ENCRYPTOR) and len(possible_locations) > 0:
-                # Choose a random location.
-                location_index = random.randint(0, len(possible_locations) - 1)
-                build_location = possible_locations[location_index]
-                """
-                Build it and remove the location since you can't place two 
-                firewalls in the same location.
-                """
-                game_state.attempt_spawn(ENCRYPTOR, build_location)
-                possible_locations.remove(build_location)
-
     def build_that_wall(self, game_state):
-        filter_locations = [[2,12],[1,13],[0,13]]
+        filter_locations = []
 
-        for i in range(3, 23):
+        for i in range(3, 21):
+            new_location = [i, 11]
+            filter_locations.append(new_location)
+        for i in range(23, 25):
             new_location = [i, 11]
             filter_locations.append(new_location)
 
@@ -182,19 +169,16 @@ class AlgoStrategy(gamelib.AlgoCore):
         """
         if (game_state.get_resource(game_state.BITS) < 12):
             return
-
+        if (game_state.get_resource(game_state.BITS) <= 0):
+            return
         """
         First lets deploy an EMP long range unit to destroy firewalls for us.
         """
-        if game_state.can_spawn(EMP, [4, 9],3):
-            game_state.attempt_spawn(EMP, [4, 9],3)
+        while game_state.get_resource(game_state.BITS) >= 3.0:
+            game_state.attempt_spawn(EMP, [3, 10])
 
-        """
-        Now lets send out 3 Pings to hopefully score, we can spawn multiple 
-        information units in the same location.
-        """
-        while game_state.get_resource(game_state.BITS) >= game_state.type_cost(PING) * 3:
-            game_state.attempt_spawn(PING, [14,0])
+        while game_state.get_resource(game_state.BITS) >= 1.0:
+            game_state.attempt_spawn(SCRAMBLER, [4, 9])
 
         """
         NOTE: the locations we used above to spawn information units may become 
@@ -216,23 +200,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         deploy units there.
         """
         deploy_locations = self.filter_blocked_locations(friendly_edges, game_state)
-        
-        """
-        While we have remaining bits to spend lets send out scramblers randomly.
-        """
-        while game_state.get_resource(game_state.BITS) >= game_state.type_cost(SCRAMBLER) and len(deploy_locations) > 0:
-           
-            """
-            Choose a random deploy location.
-            """
-            deploy_index = random.randint(0, len(deploy_locations) - 1)
-            deploy_location = deploy_locations[deploy_index]
-            
-            game_state.attempt_spawn(SCRAMBLER, deploy_location)
-            """
-            We don't have to remove the location since multiple information 
-            units can occupy the same space.
-            """
+
         
     def filter_blocked_locations(self, locations, game_state):
         filtered = []
