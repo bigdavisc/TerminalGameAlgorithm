@@ -67,6 +67,10 @@ class AlgoStrategy(gamelib.AlgoCore):
         resources to build and repair the logo before spending them 
         on anything else.
         """
+
+        if game_state.turn_number == 0:
+            self.build_that_scratch_post(game_state)
+
         self.build_that_wall(game_state)
 
         """
@@ -135,11 +139,30 @@ class AlgoStrategy(gamelib.AlgoCore):
             if game_state.can_spawn(FILTER, location):
                 game_state.attempt_spawn(FILTER, location)
 
+    def build_that_scratch_post(self, game_state):
+        filter_locations = [[6,11],[7,11],[8,11],[19,11],[20,11],[21,11],[11,11],[12,11],[13,11],[14,11],[15,11],[16,11]]
+        destructor_locations = [[7,10], [20,10],[0,13],[27,13]]
+
+        for location in filter_locations:
+            if game_state.can_spawn(FILTER, location):
+                game_state.attempt_spawn(FILTER, location)
+
+        for location in destructor_locations:
+            if game_state.can_spawn(DESTRUCTOR, location):
+                game_state.attempt_spawn(DESTRUCTOR, location)
+
     def deploy_attackers(self, game_state):
         """
         First lets check if we have 10 bits, if we don't we lets wait for
         a turn where we do.
         """
+
+        if (game_state.turn_number in range(1,3)):
+            while game_state.get_resource(game_state.BITS) >= 1.0:
+                game_state.attempt_spawn(PING, [23, 9])
+            else: return
+
+
         if (game_state.get_resource(game_state.BITS) < 15):
             return
         if (game_state.get_resource(game_state.BITS) <= 0):
