@@ -118,25 +118,29 @@ class AlgoStrategy(gamelib.AlgoCore):
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
 
-        """
-        Then lets boost our offense by building some encryptors to shield 
-        our information units. Lets put them near the front because the 
-        shields decay over time, so shields closer to the action 
-        are more effective.
-        """
-        firewall_locations = [[21,7]]
+        firewall_locations = [[24,10]]
         for location in firewall_locations:
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
 
-        """
-        Lastly lets build encryptors in random locations. Normally building 
-        randomly is a bad idea but we'll leave it to you to figure out better 
-        strategies. 
+        firewall_locations = [[25,12], [2,12], [18,4], [9,4]]
+        for location in firewall_locations:
+            if game_state.can_spawn(DESTRUCTOR, location):
+                game_state.attempt_spawn(DESTRUCTOR, location)
 
-        First we get all locations on the bottom half of the map
-        that are in the arena bounds.
-        """
+
+        destructor_wall = []
+
+        for i in range(4,21):
+            new_location = [i, 10]
+            destructor_wall.append(new_location)
+
+        for location in destructor_wall:
+            if game_state.can_spawn(DESTRUCTOR, location):
+                game_state.attempt_spawn(DESTRUCTOR, location)
+
+
+
         all_locations = []
         for i in range(game_state.ARENA_SIZE):
             for j in range(math.floor(game_state.ARENA_SIZE / 2)):
@@ -175,10 +179,10 @@ class AlgoStrategy(gamelib.AlgoCore):
         First lets deploy an EMP long range unit to destroy firewalls for us.
         """
         while game_state.get_resource(game_state.BITS) >= 3.0:
-            game_state.attempt_spawn(EMP, [3, 10])
+            game_state.attempt_spawn(EMP, [4, 9])
 
         while game_state.get_resource(game_state.BITS) >= 1.0:
-            game_state.attempt_spawn(SCRAMBLER, [4, 9])
+            game_state.attempt_spawn(SCRAMBLER, [5, 8])
 
         """
         NOTE: the locations we used above to spawn information units may become 
