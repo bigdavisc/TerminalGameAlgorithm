@@ -94,15 +94,10 @@ class AlgoStrategy(gamelib.AlgoCore):
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
 
-        firewall_locations = [[26,12], [24,10]]
+        firewall_locations = [[26,12], [23,13]]
         for location in firewall_locations:
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
-
-        firewall_locations = [[18,4], [9,4]]
-        for location in firewall_locations:
-            if game_state.can_spawn(DESTRUCTOR, location):
-                game_state.attempt_spawn(DESTRUCTOR, location)
 
 
         destructor_wall = []
@@ -114,8 +109,6 @@ class AlgoStrategy(gamelib.AlgoCore):
         for location in destructor_wall:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
-
-
 
         all_locations = []
         for i in range(game_state.ARENA_SIZE):
@@ -135,6 +128,13 @@ class AlgoStrategy(gamelib.AlgoCore):
             new_location = [i, 11]
             filter_locations.append(new_location)
 
+        backWallStartingX = 13
+        backWallStartingY = 1
+
+        for i in range(0,11):
+            new_location = [backWallStartingX+i,backWallStartingY+i]
+            filter_locations.append(new_location)
+
         for location in filter_locations:
             if game_state.can_spawn(FILTER, location):
                 game_state.attempt_spawn(FILTER, location)
@@ -152,29 +152,22 @@ class AlgoStrategy(gamelib.AlgoCore):
                 game_state.attempt_spawn(DESTRUCTOR, location)
 
     def deploy_attackers(self, game_state):
-        """
-        First lets check if we have 10 bits, if we don't we lets wait for
-        a turn where we do.
-        """
 
-        if (game_state.turn_number in range(1,3)):
-            while game_state.get_resource(game_state.BITS) >= 1.0:
-                game_state.attempt_spawn(PING, [23, 9])
-            else: return
-
-
-        if (game_state.get_resource(game_state.BITS) < 15):
+        if (game_state.get_resource(game_state.BITS) < 8):
             return
         if (game_state.get_resource(game_state.BITS) <= 0):
             return
         """
         First lets deploy an EMP long range unit to destroy firewalls for us.
         """
-        while game_state.get_resource(game_state.BITS) >= 3.0:
-            game_state.attempt_spawn(EMP, [4, 9])
-
         while game_state.get_resource(game_state.BITS) >= 1.0:
-            game_state.attempt_spawn(SCRAMBLER, [5, 8])
+            if game_state.can_spawn(PING, [14,0]):
+                game_state.attempt_spawn(PING, [14, 0])
+            else: break
+        while game_state.get_resource(game_state.BITS) >= 6.0:
+            if game_state.can_spawn(EMP, [15,1], 2):
+                game_state.attempt_spawn(PING, [15, 1], 2)
+                break
 
         """
         NOTE: the locations we used above to spawn information units may become 
