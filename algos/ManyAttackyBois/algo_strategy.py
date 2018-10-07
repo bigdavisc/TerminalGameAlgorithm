@@ -157,17 +157,15 @@ class AlgoStrategy(gamelib.AlgoCore):
             return
         if (game_state.get_resource(game_state.BITS) <= 0):
             return
-        """
-        First lets deploy an EMP long range unit to destroy firewalls for us.
-        """
+        # if game_state.turn_number % 3 == 0:
+        #     while game_state.get_resource(game_state.BITS) >= 3.0:
+        #         if game_state.can_spawn(EMP, [24,10]):
+        #             game_state.attempt_spawn(EMP, [24, 10])
+
         while game_state.get_resource(game_state.BITS) >= 1.0:
             if game_state.can_spawn(PING, [14,0]):
                 game_state.attempt_spawn(PING, [14, 0])
             else: break
-        while game_state.get_resource(game_state.BITS) >= 6.0:
-            if game_state.can_spawn(EMP, [15,1], 2):
-                game_state.attempt_spawn(PING, [15, 1], 2)
-                break
 
         """
         NOTE: the locations we used above to spawn information units may become 
