@@ -99,34 +99,39 @@ class AlgoStrategy(gamelib.AlgoCore):
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
 
-        firewall_locations = [[18,4], [9,4]]
-        for location in firewall_locations:
-            if game_state.can_spawn(DESTRUCTOR, location):
-                game_state.attempt_spawn(DESTRUCTOR, location)
-
-
         destructor_wall = []
-
-        for i in range(4,21):
+        for i in range(3,21):
             new_location = [i, 10]
             destructor_wall.append(new_location)
-
         for location in destructor_wall:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
 
+        firewall_locations = [[23,9]]
+        for location in firewall_locations:
+            if game_state.can_spawn(DESTRUCTOR, location):
+                game_state.attempt_spawn(DESTRUCTOR, location)
+
+        encryptor_wall = []
+        for i in range(20, 6, -3):
+            new_location = [i, 9]
+            encryptor_wall.append(new_location)
+        for location in encryptor_wall:
+            if game_state.can_spawn(ENCRYPTOR, location):
+                game_state.attempt_spawn(ENCRYPTOR, location)
 
 
-        all_locations = []
-        for i in range(game_state.ARENA_SIZE):
-            for j in range(math.floor(game_state.ARENA_SIZE / 2)):
-                if (game_state.game_map.in_arena_bounds([i, j])):
-                    all_locations.append([i, j])
-        
-        """
-        Then we remove locations already occupied.
-        """
-        possible_locations = self.filter_blocked_locations(all_locations, game_state)
+
+        # all_locations = []
+        # for i in range(game_state.ARENA_SIZE):
+        #     for j in range(math.floor(game_state.ARENA_SIZE / 2)):
+        #         if (game_state.game_map.in_arena_bounds([i, j])):
+        #             all_locations.append([i, j])
+        #
+        # """
+        # Then we remove locations already occupied.
+        # """
+        # possible_locations = self.filter_blocked_locations(all_locations, game_state)
 
     def build_that_wall(self, game_state):
         filter_locations = []
@@ -157,13 +162,13 @@ class AlgoStrategy(gamelib.AlgoCore):
         a turn where we do.
         """
 
-        if (game_state.turn_number in range(1,3)):
+        if (game_state.turn_number in range(0,1)):
             while game_state.get_resource(game_state.BITS) >= 1.0:
                 game_state.attempt_spawn(PING, [23, 9])
             else: return
 
 
-        if (game_state.get_resource(game_state.BITS) < 15):
+        if (game_state.get_resource(game_state.BITS) < 12):
             return
         if (game_state.get_resource(game_state.BITS) <= 0):
             return
