@@ -137,9 +137,15 @@ class AlgoStrategy(gamelib.AlgoCore):
         """
         if (game_state.get_resource(game_state.BITS) <= 0):
             return
-
-        while game_state.get_resource(game_state.BITS) >= 1.0:
-            game_state.attempt_spawn(PING, [13, 0])
+        if (game_state.turn_number > 4):
+            if (game_state.get_resource(game_state.BITS) >= 12.0):
+                while game_state.get_resource(game_state.BITS) >= 1.0:
+                    game_state.attempt_spawn(PING, [13, 0])
+            else:
+                return
+        else:
+            while game_state.get_resource(game_state.BITS) >= 1.0:
+                game_state.attempt_spawn(PING, [13, 0])
 
         """
         NOTE: the locations we used above to spawn information units may become 
