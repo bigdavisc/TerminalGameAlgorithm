@@ -69,11 +69,11 @@ class AlgoStrategy(gamelib.AlgoCore):
         """
 
         self.build_that_runway(game_state)
+        self.build_defences(game_state)
         self.build_that_wall(game_state)
         """
         Then build additional defenses.
         """
-        self.build_defences(game_state)
         """
         Finally deploy our information units to attack.
         """
@@ -81,25 +81,27 @@ class AlgoStrategy(gamelib.AlgoCore):
 
     def build_defences(self, game_state):
 
+        destructor_locations = [[11,13],[16,13]]
+        for location in destructor_locations:
+            if game_state.can_spawn(DESTRUCTOR, location):
+                game_state.attempt_spawn(DESTRUCTOR, location)
 
         encryptor_locations = []
-        for i in range(2,13):
+        for i in range(12,1,-2):
             new_location = [11,i]
             encryptor_locations.append(new_location)
-        for i in range(2,13):
-            new_location = [16,i]
+        for i in range(12,1,-2):
+            new_location = [16, i]
             encryptor_locations.append(new_location)
 
         for location in encryptor_locations:
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
 
-        destructor_locations = [[0,13],[1,12],[27,13],[23,12],[24,13],[20,10],[2,11],[25,11],[13,10],[6,10]]
+        destructor_locations = [[7, 13], [4, 13], [1, 13], [20,13], [23,13], [26,13], [20,6], [23,9], [7,6], [4,9]]
         for location in destructor_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
-
-
 
         all_locations = []
         for i in range(game_state.ARENA_SIZE):
@@ -130,11 +132,11 @@ class AlgoStrategy(gamelib.AlgoCore):
     def build_that_wall(self, game_state):
         filter_locations = []
 
-        for i in range(0, 13):
+        for i in range(0, 13, 3):
             new_location = [i, 13]
             filter_locations.append(new_location)
 
-        for i in range(16, 28):
+        for i in range(18, 28, 3):
             new_location = [i, 13]
             filter_locations.append(new_location)
 
@@ -147,25 +149,12 @@ class AlgoStrategy(gamelib.AlgoCore):
         First lets check if we have 10 bits, if we don't we lets wait for
         a turn where we do.
         """
-
-        if (game_state.turn_number in range(1,3)):
-            while game_state.get_resource(game_state.BITS) >= 1.0:
-                game_state.attempt_spawn(PING, [23, 9])
-            else: return
-
-
-        if (game_state.get_resource(game_state.BITS) < 15):
-            return
         if (game_state.get_resource(game_state.BITS) <= 0):
             return
-        """
-        First lets deploy an EMP long range unit to destroy firewalls for us.
-        """
-        while game_state.get_resource(game_state.BITS) >= 3.0:
-            game_state.attempt_spawn(EMP, [4, 9])
 
-        while game_state.get_resource(game_state.BITS) >= 1.0:
-            game_state.attempt_spawn(SCRAMBLER, [5, 8])
+        while game_state.get_resource(game_state.BITS) >= 2.0:
+            game_state.attempt_spawn(PING, [13, 0])
+            game_state.attempt_spawn(PING, [14, 0])
 
         """
         NOTE: the locations we used above to spawn information units may become 
