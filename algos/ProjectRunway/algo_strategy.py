@@ -81,29 +81,29 @@ class AlgoStrategy(gamelib.AlgoCore):
 
     def build_defences(self, game_state):
 
-        destructor_locations = [[11,13],[16,13]]
-        for location in destructor_locations:
-            if game_state.can_spawn(DESTRUCTOR, location):
-                game_state.attempt_spawn(DESTRUCTOR, location)
-
         encryptor_locations = []
-        for i in range(11,8,-2):
+        for i in range(12,8,-2):
             new_location = [11,i]
             encryptor_locations.append(new_location)
             new_location = [16, i]
             encryptor_locations.append(new_location)
 
+        destructor_locations = [[11,12],[16,12]]
+        for location in destructor_locations:
+            if game_state.can_spawn(DESTRUCTOR, location):
+                game_state.attempt_spawn(DESTRUCTOR, location)
+
         for location in encryptor_locations:
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
 
-        destructor_locations = [[7, 13], [20,13], [4, 13], [23,13], [1, 13], [26,13]]
+        destructor_locations = [[8, 12], [19,12], [5, 12], [22,12], [2, 12], [25,12]]
         for location in destructor_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
 
         encryptor_locations = []
-        for i in range(7,1,-2):
+        for i in range(8,1,-2):
             new_location = [11,i]
             encryptor_locations.append(new_location)
             new_location = [16, i]
@@ -121,11 +121,11 @@ class AlgoStrategy(gamelib.AlgoCore):
     def build_that_runway(self, game_state):
         filter_locations = []
 
-        for i in range(1, 12):
+        for i in range(1, 11):
             new_location = [12, i]
             filter_locations.append(new_location)
 
-        for i in range(1, 12):
+        for i in range(1, 11):
             new_location = [15, i]
             filter_locations.append(new_location)
 
@@ -136,13 +136,16 @@ class AlgoStrategy(gamelib.AlgoCore):
     def build_that_wall(self, game_state):
         filter_locations = []
 
-        for i in range(0, 13, 3):
-            new_location = [i, 13]
+        for i in range(1, 13, 3):
+            new_location = [i, 12]
             filter_locations.append(new_location)
 
-        for i in range(15, 28, 3):
-            new_location = [i, 13]
+        for i in range(17, 27, 3):
+            new_location = [i, 12]
             filter_locations.append(new_location)
+
+        filter_locations.append([12, 12])
+        filter_locations.append([15, 12])
 
         for location in filter_locations:
             if game_state.can_spawn(FILTER, location):
