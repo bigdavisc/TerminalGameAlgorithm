@@ -87,7 +87,7 @@ class AlgoStrategy(gamelib.AlgoCore):
                 game_state.attempt_spawn(DESTRUCTOR, location)
 
         encryptor_locations = []
-        for i in range(12,9,-2):
+        for i in range(11,8,-2):
             new_location = [11,i]
             encryptor_locations.append(new_location)
             new_location = [16, i]
@@ -140,7 +140,7 @@ class AlgoStrategy(gamelib.AlgoCore):
             new_location = [i, 13]
             filter_locations.append(new_location)
 
-        for i in range(18, 28, 3):
+        for i in range(15, 28, 3):
             new_location = [i, 13]
             filter_locations.append(new_location)
 
