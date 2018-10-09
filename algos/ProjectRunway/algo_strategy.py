@@ -87,10 +87,9 @@ class AlgoStrategy(gamelib.AlgoCore):
                 game_state.attempt_spawn(DESTRUCTOR, location)
 
         encryptor_locations = []
-        for i in range(12,1,-2):
+        for i in range(12,9,-2):
             new_location = [11,i]
             encryptor_locations.append(new_location)
-        for i in range(12,1,-2):
             new_location = [16, i]
             encryptor_locations.append(new_location)
 
@@ -98,30 +97,35 @@ class AlgoStrategy(gamelib.AlgoCore):
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
 
-        destructor_locations = [[7, 13], [4, 13], [1, 13], [20,13], [23,13], [26,13], [20,6], [23,9], [7,6], [4,9]]
+        destructor_locations = [[7, 13], [20,13], [4, 13], [23,13], [1, 13], [26,13]]
         for location in destructor_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
 
-        all_locations = []
-        for i in range(game_state.ARENA_SIZE):
-            for j in range(math.floor(game_state.ARENA_SIZE / 2)):
-                if (game_state.game_map.in_arena_bounds([i, j])):
-                    all_locations.append([i, j])
-        
-        """
-        Then we remove locations already occupied.
-        """
-        possible_locations = self.filter_blocked_locations(all_locations, game_state)
+        encryptor_locations = []
+        for i in range(7,1,-2):
+            new_location = [11,i]
+            encryptor_locations.append(new_location)
+            new_location = [16, i]
+            encryptor_locations.append(new_location)
+
+        for location in encryptor_locations:
+            if game_state.can_spawn(ENCRYPTOR, location):
+                game_state.attempt_spawn(ENCRYPTOR, location)
+
+        destructor_locations = [[20,6], [23,9], [7,6], [4,9]]
+        for location in destructor_locations:
+            if game_state.can_spawn(DESTRUCTOR, location):
+                game_state.attempt_spawn(DESTRUCTOR, location)
 
     def build_that_runway(self, game_state):
         filter_locations = []
 
-        for i in range(1, 14):
+        for i in range(1, 12):
             new_location = [12, i]
             filter_locations.append(new_location)
 
-        for i in range(1, 14):
+        for i in range(1, 12):
             new_location = [15, i]
             filter_locations.append(new_location)
 
@@ -153,8 +157,10 @@ class AlgoStrategy(gamelib.AlgoCore):
             return
 
         while game_state.get_resource(game_state.BITS) >= 2.0:
-            game_state.attempt_spawn(PING, [13, 0])
-            game_state.attempt_spawn(PING, [14, 0])
+            if game_state.turn_number % 2 == 0:
+                game_state.attempt_spawn(PING, [13, 0])
+            else:
+                game_state.attempt_spawn(PING, [14, 0])
 
         """
         NOTE: the locations we used above to spawn information units may become 
