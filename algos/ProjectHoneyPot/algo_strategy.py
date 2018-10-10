@@ -164,7 +164,7 @@ class AlgoStrategy(gamelib.AlgoCore):
 
         if (game_state.turn_number in range(0,1)):
             while game_state.get_resource(game_state.BITS) >= 1.0:
-                game_state.attempt_spawn(PING, [23, 9])
+                game_state.attempt_spawn(PING, [4,9])
             else: return
 
 
