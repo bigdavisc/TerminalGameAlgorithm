@@ -88,7 +88,12 @@ class AlgoStrategy(gamelib.AlgoCore):
             new_location = [16, i]
             encryptor_locations.append(new_location)
 
-        destructor_locations = [[11,12],[16,12]]
+        destructor_locations = [[11,12],[16,12],[2,13], [25,13], [25,12], [2, 12]]
+        for location in destructor_locations:
+            if game_state.can_spawn(DESTRUCTOR, location):
+                game_state.attempt_spawn(DESTRUCTOR, location)
+
+        destructor_locations = [[8, 12], [19,12], [5, 12], [22,12], [26,12],[1,12],[27,13],[0,13]]
         for location in destructor_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
@@ -97,10 +102,20 @@ class AlgoStrategy(gamelib.AlgoCore):
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
 
-        destructor_locations = [[8, 12], [19,12], [5, 12], [22,12], [2, 12], [25,12]]
-        for location in destructor_locations:
-            if game_state.can_spawn(DESTRUCTOR, location):
-                game_state.attempt_spawn(DESTRUCTOR, location)
+
+        filter_locations = []
+        for i in range(1, 5):
+            new_location = [12, i]
+            filter_locations.append(new_location)
+
+        for i in range(1, 5):
+            new_location = [15, i]
+            filter_locations.append(new_location)
+
+        for location in filter_locations:
+            if game_state.can_spawn(FILTER, location):
+                game_state.attempt_spawn(FILTER, location)
+
 
         encryptor_locations = []
         for i in range(8,1,-2):
@@ -121,11 +136,11 @@ class AlgoStrategy(gamelib.AlgoCore):
     def build_that_runway(self, game_state):
         filter_locations = []
 
-        for i in range(1, 11):
+        for i in range(5, 11):
             new_location = [12, i]
             filter_locations.append(new_location)
 
-        for i in range(1, 11):
+        for i in range(5, 11):
             new_location = [15, i]
             filter_locations.append(new_location)
 
@@ -158,7 +173,8 @@ class AlgoStrategy(gamelib.AlgoCore):
         """
         if (game_state.get_resource(game_state.BITS) <= 0):
             return
-
+        if (game_state.get_resource(game_state.BITS) <= 8.0):
+            return
         while game_state.get_resource(game_state.BITS) >= 1.0:
             if game_state.turn_number % 2 == 0:
                 game_state.attempt_spawn(PING, [13, 0])
