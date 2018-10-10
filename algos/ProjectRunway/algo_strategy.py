@@ -70,7 +70,7 @@ class AlgoStrategy(gamelib.AlgoCore):
 
         self.build_that_runway(game_state)
         self.build_defences(game_state)
-        self.build_that_wall(game_state)
+        # self.build_that_wall(game_state)
         """
         Then build additional defenses.
         """
@@ -88,12 +88,7 @@ class AlgoStrategy(gamelib.AlgoCore):
             new_location = [16, i]
             encryptor_locations.append(new_location)
 
-        destructor_locations = [[11,12],[16,12],[2,13], [25,13], [25,12], [2, 12]]
-        for location in destructor_locations:
-            if game_state.can_spawn(DESTRUCTOR, location):
-                game_state.attempt_spawn(DESTRUCTOR, location)
-
-        destructor_locations = [[8, 12], [19,12], [5, 12], [22,12], [26,12],[1,12],[27,13],[0,13]]
+        destructor_locations = [[0,13],[27,13],[1,12],[26,12],[1,13],[26,13],[2,12],[25,12]]
         for location in destructor_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
@@ -101,7 +96,6 @@ class AlgoStrategy(gamelib.AlgoCore):
         for location in encryptor_locations:
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
-
 
         filter_locations = []
         for i in range(1, 5):
