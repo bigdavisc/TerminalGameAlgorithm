@@ -146,7 +146,7 @@ class AlgoStrategy(gamelib.AlgoCore):
 
     def build_that_scratch_post(self, game_state):
         filter_locations = [[6,11],[7,11],[8,11],[19,11],[20,11],[21,11],[11,11],[12,11],[13,11],[14,11],[15,11],[16,11]]
-        destructor_locations = [[7,10], [20,10],[0,13],[27,13]]
+        destructor_locations = [[7,10], [20,10],[0,13],[1,13],[27,13]]
 
         for location in filter_locations:
             if game_state.can_spawn(FILTER, location):
