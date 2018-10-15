@@ -334,7 +334,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         clear_path = [[23,10],[23,11],[24,11],[24,12],[25,12],[25,13],[26,13]]
         game_state.attempt_remove(clear_path)
 
-        destructor_locations = [[27,13],[24,13],[23,12],[25,11]]
+        destructor_locations = [[27,13],[24,13],[23,12],[25,11],[23,13]]
         filter_locations = [[22,11]]
         encyrptor_locations = [[26,12],[24,10]]
 
@@ -356,7 +356,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         clear_path = [[3,11],[4,11],[3,12],[2,12],[1,13],[2,13],[4,10]]
         game_state.attempt_remove(clear_path)
 
-        destructor_locations = [[0,13],[3,13],[4,12],[2,11]]
+        destructor_locations = [[0,13],[3,13],[4,12],[2,11],[4,13]]
         filter_locations = [[5,11]]
         encyrptor_locations = [[1, 12],[3,10]]
 
