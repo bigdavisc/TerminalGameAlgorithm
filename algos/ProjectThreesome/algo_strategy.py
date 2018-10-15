@@ -258,6 +258,13 @@ class AlgoStrategy(gamelib.AlgoCore):
 
     def build_up_left(self, game_state):
         global whatHasBeenBuilt
+        # -------------BUILD CORNER DESTRUCTORS----------------
+        destructor_locations = [[0, 13], [1, 13], [1, 12], [2, 12]]
+        for location in destructor_locations:
+            if game_state.can_spawn(DESTRUCTOR, location):
+                game_state.attempt_spawn(DESTRUCTOR, location)
+                whatHasBeenBuilt["DESTRUCTOR"].append(location)
+        # -----------------------------------------------------
         #-------------BUILD SECOND WALL OF FILTERS--------------
         filter_locations = []
         for i in range(3, 9):
@@ -279,7 +286,7 @@ class AlgoStrategy(gamelib.AlgoCore):
                 whatHasBeenBuilt["FILTERS"].append(location)
         # -----------------------------------------------------
         #-------------BUILD  WALL OF DESTROYERS----------------
-        destructor_locations = [[0,13],[1,13],[1,12],[2,12]]
+        destructor_locations = []
         for i in range(2, 9):
             new_location = [i, 11]
             destructor_locations.append(new_location)
@@ -298,6 +305,13 @@ class AlgoStrategy(gamelib.AlgoCore):
 
     def build_up_right(self, game_state):
         global whatHasBeenBuilt
+        # -------------BUILD CORNER DESTRUCTORS----------------
+        destructor_locations = [[26,13],[27,13],[25,12],[26,12]]
+        for location in destructor_locations:
+            if game_state.can_spawn(DESTRUCTOR, location):
+                game_state.attempt_spawn(DESTRUCTOR, location)
+                whatHasBeenBuilt["DESTRUCTOR"].append(location)
+        # -----------------------------------------------------
         #-------------BUILD SECOND WALL OF FILTERS--------------
         filter_locations = []
         for i in range(25, 19,-1):
@@ -319,7 +333,7 @@ class AlgoStrategy(gamelib.AlgoCore):
                 whatHasBeenBuilt["FILTERS"].append(location)
         # -----------------------------------------------------
         #-------------BUILD  WALL OF DESTROYERS----------------
-        destructor_locations = [[26,13],[27,13],[25,12],[26,12]]
+        destructor_locations = []
         for i in range(25, 18,-1):
             new_location = [i, 11]
             destructor_locations.append(new_location)
