@@ -109,6 +109,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         else:
             # ------------------BEGINNING OF GAME--------------------
             if game_state.turn_number == 0:
+                self.build_that_wall(game_state)
                 self.build_that_scratch_post(game_state)
             self.build_tunnel_right(game_state)
             self.build_up_left(game_state)
@@ -117,8 +118,8 @@ class AlgoStrategy(gamelib.AlgoCore):
             self.deploy_attackers_left(game_state)
             # -------------------------------------------------------
 
-        if game_state.get_resource(game_state.CORES) >= 10:
-            self.build_that_front_wall(game_state)
+        # if game_state.get_resource(game_state.CORES) >= 10:
+        #     self.build_that_front_wall(game_state)
 
         whatShouldBeOnTheBoard = self.removeDuplicates(whatShouldBeOnTheBoard).copy()
         destroyedFirewalls = self.find_destroyed_firewalls(whatShouldBeOnTheBoard,whatHasBeenBuilt)
@@ -162,8 +163,8 @@ class AlgoStrategy(gamelib.AlgoCore):
         global whatHasBeenBuilt
         filter_locations = []
 
-        for i in range(5, 23):
-            new_location = [i, 12]
+        for i in range(8, 20):
+            new_location = [i, 10]
             filter_locations.append(new_location)
 
         for location in filter_locations:
@@ -173,13 +174,7 @@ class AlgoStrategy(gamelib.AlgoCore):
 
     def build_that_scratch_post(self, game_state):
         global whatHasBeenBuilt
-        filter_locations = [[6,11],[7,11],[8,11],[19,11],[20,11],[21,11],[11,11],[12,11],[13,11],[14,11],[15,11],[16,11]]
-        destructor_locations = [[7,10], [20,10],[0,13],[1,13],[27,13]]
-
-        for location in filter_locations:
-            if game_state.can_spawn(FILTER, location):
-                game_state.attempt_spawn(FILTER, location)
-                whatHasBeenBuilt["FILTERS"].append(location)
+        destructor_locations = [[0,13],[27,13],[7,10],[20,10],[1,13]]
 
         for location in destructor_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
@@ -259,7 +254,7 @@ class AlgoStrategy(gamelib.AlgoCore):
     def build_up_left(self, game_state):
         global whatHasBeenBuilt
         # -------------BUILD CORNER DESTRUCTORS----------------
-        destructor_locations = [[0, 13], [1, 13], [1, 12], [2, 12]]
+        destructor_locations = [[0, 13], [1, 13]]
         for location in destructor_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
@@ -267,7 +262,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         # -----------------------------------------------------
         #-------------BUILD SECOND WALL OF FILTERS--------------
         filter_locations = []
-        for i in range(3, 9):
+        for i in range(2, 8):
             new_location = [i, 12]
             filter_locations.append(new_location)
         for location in filter_locations:
@@ -277,7 +272,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         # -----------------------------------------------------
         # -------------BUILD FRONT WALL OF FILTERS-------------
         filter_locations = []
-        for i in range(2, 8):
+        for i in range(1, 7):
             new_location = [i, 13]
             filter_locations.append(new_location)
         for location in filter_locations:
@@ -285,15 +280,15 @@ class AlgoStrategy(gamelib.AlgoCore):
                 game_state.attempt_spawn(FILTER, location)
                 whatHasBeenBuilt["FILTERS"].append(location)
         # -----------------------------------------------------
-        #-------------BUILD  WALL OF DESTROYERS----------------
-        destructor_locations = []
+        #-------------BUILD BACK WALL OF FILTERS---------------
+        filter_locations = []
         for i in range(2, 9):
             new_location = [i, 11]
-            destructor_locations.append(new_location)
-        for location in destructor_locations:
-            if game_state.can_spawn(DESTRUCTOR, location):
-                game_state.attempt_spawn(DESTRUCTOR, location)
-                whatHasBeenBuilt["DESTRUCTOR"].append(location)
+            filter_locations.append(new_location)
+        for location in filter_locations:
+            if game_state.can_spawn(FILTER, location):
+                game_state.attempt_spawn(FILTER, location)
+                whatHasBeenBuilt["FILTERS"].append(location)
         # -----------------------------------------------------
 
     def build_up_middle(self, game_state):
@@ -306,7 +301,7 @@ class AlgoStrategy(gamelib.AlgoCore):
     def build_up_right(self, game_state):
         global whatHasBeenBuilt
         # -------------BUILD CORNER DESTRUCTORS----------------
-        destructor_locations = [[26,13],[27,13],[25,12],[26,12]]
+        destructor_locations = [[26,13],[27,13]]
         for location in destructor_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
@@ -314,7 +309,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         # -----------------------------------------------------
         #-------------BUILD SECOND WALL OF FILTERS--------------
         filter_locations = []
-        for i in range(25, 19,-1):
+        for i in range(26, 20,-1):
             new_location = [i, 12]
             filter_locations.append(new_location)
         for location in filter_locations:
@@ -324,7 +319,7 @@ class AlgoStrategy(gamelib.AlgoCore):
         # -----------------------------------------------------
         # -------------BUILD FRONT WALL OF FILTERS-------------
         filter_locations = []
-        for i in range(26, 20, -1):
+        for i in range(27, 21, -1):
             new_location = [i, 13]
             filter_locations.append(new_location)
         for location in filter_locations:
@@ -332,14 +327,14 @@ class AlgoStrategy(gamelib.AlgoCore):
                 game_state.attempt_spawn(FILTER, location)
                 whatHasBeenBuilt["FILTERS"].append(location)
         # -----------------------------------------------------
-        #-------------BUILD  WALL OF DESTROYERS----------------
-        destructor_locations = []
+        # -------------BUILD BACK WALL OF FILTERS---------------
+        filter_locations = []
         for i in range(25, 18,-1):
             new_location = [i, 11]
-            destructor_locations.append(new_location)
-        for location in destructor_locations:
-            if game_state.can_spawn(DESTRUCTOR, location):
-                game_state.attempt_spawn(DESTRUCTOR, location)
+            filter_locations.append(new_location)
+        for location in filter_locations:
+            if game_state.can_spawn(FILTER, location):
+                game_state.attempt_spawn(FILTER, location)
                 whatHasBeenBuilt["DESTRUCTOR"].append(location)
         # -----------------------------------------------------
 
