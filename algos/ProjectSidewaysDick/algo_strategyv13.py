@@ -82,26 +82,26 @@ class AlgoStrategy(gamelib.AlgoCore):
     def build_defences(self, game_state):
 
         encryptor_locations = []
-        for i in range(0,2):
+        for i in range(0,2,2):
             new_location = [24-i,12-i]
             encryptor_locations.append(new_location)
         for location in encryptor_locations:
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
 
-        destructor_locations = [[24,13], [25,13]]
+        destructor_locations = [[0,13], [27,13]]
         for location in destructor_locations:
             if game_state.can_spawn(DESTRUCTOR, location):
                 game_state.attempt_spawn(DESTRUCTOR, location)
 
-        for i in range(2,13):
+        for i in range(2,13,2):
             new_location = [24-i,12-i]
             encryptor_locations.append(new_location)
         for location in encryptor_locations:
             if game_state.can_spawn(ENCRYPTOR, location):
                 game_state.attempt_spawn(ENCRYPTOR, location)
 
-        for i in range(2,21,3):
+        for i in range(2,21):
             new_location = [i,12]
             destructor_locations.append(new_location)
         for location in destructor_locations:
@@ -137,15 +137,29 @@ class AlgoStrategy(gamelib.AlgoCore):
         """
         if (game_state.get_resource(game_state.BITS) <= 0):
             return
-        if (game_state.turn_number > 4):
-            if (game_state.get_resource(game_state.BITS) >= 12.0):
+        # if (game_state.turn_number > 4):
+        #     if (game_state.get_resource(game_state.BITS) >= 10.0):
+        #         game_state.attempt_spawn(EMP, [20, 6])
+        #         while game_state.get_resource(game_state.BITS) >= 1.0:
+        #             game_state.attempt_spawn(PING, [13, 0])
+        #     else:
+        #         return
+        # else:
+        #     while game_state.get_resource(game_state.BITS) >= 1.0:
+        #         game_state.attempt_spawn(PING, [13, 0])
+
+        # if (game_state.get_resource(game_state.BITS) >= 12.0):
+        #     # game_state.attempt_spawn(EMP, [20, 6])
+        #     while game_state.get_resource(game_state.BITS) >= 1.0:
+        #         game_state.attempt_spawn(PING, [13, 0])
+
+        if (game_state.get_resource(game_state.BITS) >= 10.0):
+            if game_state.turn_number % 2 == 0:
+                while game_state.get_resource(game_state.BITS) >= 3.0:
+                    game_state.attempt_spawn(EMP, [13, 0])
+            else:
                 while game_state.get_resource(game_state.BITS) >= 1.0:
                     game_state.attempt_spawn(PING, [13, 0])
-            else:
-                return
-        else:
-            while game_state.get_resource(game_state.BITS) >= 1.0:
-                game_state.attempt_spawn(PING, [13, 0])
 
         """
         NOTE: the locations we used above to spawn information units may become 
@@ -175,6 +189,19 @@ class AlgoStrategy(gamelib.AlgoCore):
             if not game_state.contains_stationary_unit(location):
                 filtered.append(location)
         return filtered
+
+    def build_that_runway_left(self,game_state):
+        filter_locations = []
+
+        for i in range(0, 12):
+            new_location = [15-i, 1+i]
+            filter_locations.append(new_location)
+
+        for location in filter_locations:
+            if game_state.can_spawn(FILTER, location):
+                game_state.attempt_spawn(FILTER, location)
+
+
 
 if __name__ == "__main__":
     algo = AlgoStrategy()
