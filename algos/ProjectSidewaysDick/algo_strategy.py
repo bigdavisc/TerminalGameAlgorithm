@@ -73,8 +73,8 @@ class AlgoStrategy(gamelib.AlgoCore):
         resources to build and repair the logo before spending them 
         on anything else.
         """
-        if game_state.turn_number % 6 == 0 and game_state.turn_number > 0:
-            if game_state.enemy_health < enemyHealth[game_state.turn_number-5]:
+        if game_state.turn_number % 4 == 0 and game_state.turn_number > 0:
+            if game_state.enemy_health < enemyHealth[game_state.turn_number-3]:
                 return
             else:
                 if currentAttackingSide == "LEFT": currentAttackingSide = "RIGHT"
@@ -84,14 +84,13 @@ class AlgoStrategy(gamelib.AlgoCore):
             self.build_that_runway_right(game_state)
             self.build_those_encryptors_right(game_state)
             self.build_that_wall_of_filters(game_state)
-            self.build_that_wall_of_destructors(game_state)
             self.deploy_attackers_right(game_state)
         else:
             self.build_that_runway_left(game_state)
             self.build_those_encryptors_left(game_state)
             self.build_that_wall_of_filters(game_state)
-            self.build_that_wall_of_destructors(game_state)
             self.deploy_attackers_left(game_state)
+        self.build_that_wall_of_destructors(game_state)
 
         enemyHealth[game_state.turn_number] = game_state.enemy_health
 
@@ -198,7 +197,7 @@ class AlgoStrategy(gamelib.AlgoCore):
 #----------------------LEFT SIDE RUNWAY-----------------------
     def build_that_runway_left(self,game_state):
 
-        removal_locations = []
+        removal_locations = [[12,1],[13,2]]
         for i in range(0, 10):
             new_location = [24 - i, 12 - i]
             removal_locations.append(new_location)
@@ -241,7 +240,7 @@ class AlgoStrategy(gamelib.AlgoCore):
 # ----------------------RIGHT SIDE RUNWAY---------------------
     def build_that_runway_right(self, game_state):
 
-        removal_locations = []
+        removal_locations = [[15,1],[14,2]]
         for i in range(0,10):
             new_location = [3+i,12-i]
             removal_locations.append(new_location)
@@ -285,7 +284,7 @@ class AlgoStrategy(gamelib.AlgoCore):
     def build_that_wall_of_filters(self, game_state):
         filter_locations = []
 
-        for i in range(3, 23, 2):
+        for i in range(4, 23, 2):
             new_location = [i, 12]
             filter_locations.append(new_location)
 
@@ -296,7 +295,7 @@ class AlgoStrategy(gamelib.AlgoCore):
     def build_that_wall_of_destructors(self, game_state):
         destructor_locations = []
 
-        for i in range(4, 23, 2):
+        for i in range(5, 23, 2):
             new_location = [i, 12]
             destructor_locations.append(new_location)
 
